@@ -1,1 +1,1 @@
-** a simple game of rock paper scissors against the computer **
+### A simple game of rock paper scissors against the computer.
