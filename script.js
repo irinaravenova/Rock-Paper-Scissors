@@ -1,38 +1,56 @@
 // rock paper scissors
 
-const choiceArray = ['Rock', 'Paper', 'Scissors'];
-const computerSelection = getComputerChoice(choiceArray);
-const userEntryField = document.querySelector('.userEntryField');
-const userSubmit = document.querySelector('.userSubmit');
+// RULES
+    // rock beats scissors
+    // scissors beats paper
+    // paper beats rock
 
-let playerSelection;
+function getComputerChoice() {
 
-function getComputerChoice(arr) {
-    const randomIndex = Math.floor(Math.random() * arr.length);
-    const computerChoice = arr[randomIndex];
+    const choiceArray = ['Rock', 'Paper', 'Scissors'];
+    const randomIndex = Math.floor(Math.random() * choiceArray.length);
+    const computerChoice = choiceArray[randomIndex].toLowerCase();
     return computerChoice;
 };
 
-function checkUserEntry() {
+// single round of RPS
+function playRound (playerSelection, computerSelection) {
 
-    const userEntry = userEntryField.value.toLowerCase();
+    playerSelection = playerSelection.toLowerCase();
 
-    if (userEntry === 'rock' 
-        || (userEntry) === 'paper' 
-        || (userEntry) === 'scissors') {
-            playerSelection = userEntry;
-            console.log(playerSelection);
-            return playerSelection;
+    if (computerSelection == 'paper') {
+        if (playerSelection == 'scissors') {
+            return "You Win! Scissors beats Paper";
         }
-    else {
-        alert('Please enter rock, paper, or scissors');
-        userEntryField.textContent = '';
+        else if (playerSelection == 'rock') {
+            return "You Lose! Paper beats Rock";
+        }
     }
 
-    userEntryField.value = '';
+    else if (computerSelection == 'rock') {
+        if (playerSelection == 'scissors') {
+            return "You lose! Rock beats Scissors";
+        }
+        else if (playerSelection == 'paper') {
+            return "You Win! Paper beats Rock";
+        }
+    }
 
+    else if (computerSelection == 'scissors') {
+        if (playerSelection == 'rock') {
+            return "You Win! Rock beats Scissors";
+        }
+        else if (playerSelection == 'paper') {
+            return "You Lose! Scissors beats Paper";
+        }
+    }
+
+    if (computerSelection == playerSelection) {
+        return 'You have tied!';
+    }
 }
 
-userSubmit.addEventListener('click', checkUserEntry);
-
-console.log(computerSelection, checkUserEntry);
+const playerSelection = "rock";
+const computerSelection = getComputerChoice();
+console.log(playRound(playerSelection, computerSelection));
+console.log(playerSelection, computerSelection);
