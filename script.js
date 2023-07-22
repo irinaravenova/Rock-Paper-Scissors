@@ -5,8 +5,9 @@
     // scissors beats paper
     // paper beats rock
 
-const computerSelection = getComputerChoice();
+let computerSelection = getComputerChoice();
 const gameStart = document.querySelector('.gameStartButton');
+const buttons = document.querySelectorAll('.buttons');
 
 function getComputerChoice() {
     const choiceArray = ['Rock', 'Paper', 'Scissors'];
@@ -15,9 +16,15 @@ function getComputerChoice() {
     return computerChoice;
 };
 
-function playRound (playerSelection, computerSelection) {
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        playerSelection = button.textContent.toLowerCase();
+        let computerSelection = getComputerChoice();
+        console.log(playRound(playerSelection, computerSelection));
+    });
+});
 
-    playerSelection = playerSelection.toLowerCase();
+function playRound (playerSelection, computerSelection) {
 
     if (computerSelection == 'paper') {
         if (playerSelection == 'scissors') {
@@ -60,7 +67,6 @@ function game() {
 
     for (let i = 0; i <= 5; i++) {
 
-        // if fifth and final round then declare winner
         if (whichRound == 5) {
 
             console.log(`Round ${whichRound}!
@@ -129,4 +135,5 @@ function game() {
 }
 
 gameStart.addEventListener('click', game);
+
 
