@@ -5,9 +5,20 @@
     // scissors beats paper
     // paper beats rock
 
-let computerSelection = getComputerChoice();
-const gameStart = document.querySelector('.gameStartButton');
 const buttons = document.querySelectorAll('.buttons');
+const roundInfo = document.querySelector('.round-info-text');
+const choices = document.querySelector('.choice-buttons');
+const announcement = document.querySelector('.announcement');
+
+let computerSelection = getComputerChoice();
+let playerPoints = 0;
+let computerPoints = 0;
+let whichRound = 1;
+
+let round = document.querySelector('.round');
+let playerScore = document.querySelector('.your-score');
+let compScore = document.querySelector('.comp-score');
+
 
 function getComputerChoice() {
     const choiceArray = ['Rock', 'Paper', 'Scissors'];
@@ -20,7 +31,46 @@ buttons.forEach((button) => {
     button.addEventListener('click', () => {
         playerSelection = button.textContent.toLowerCase();
         let computerSelection = getComputerChoice();
-        console.log(playRound(playerSelection, computerSelection));
+        let result = playRound(playerSelection, computerSelection);
+        console.log(result);
+
+        if (result.includes('Win')) {
+            ++playerPoints;
+            whichRound++;
+            console.log(playerPoints, whichRound);
+
+            round.textContent = `Current Round: ${whichRound}`;
+            playerScore.textContent = `Your Score: ${playerPoints}`;
+
+            if (playerPoints > 4) {
+                choices.style.visibility = "hidden";
+            
+                let paraWon = document.createElement('p');
+                paraWon.textContent = "You have won the game!";
+                announcement.appendChild(paraWon);
+                }
+        }
+
+        else if (result.includes('Lose')) {
+            whichRound++;
+            ++computerPoints;
+            round.textContent = `Current Round: ${whichRound}`;
+            compScore.textContent = `Computer Score: ${computerPoints}`;
+
+            if ( computerPoints > 4) {
+                choices.style.visibility = "hidden";
+            
+                let paraLost = document.createElement('p');
+                paraLost.textContent = "You have lost the game.";
+                announcement.appendChild(paraLost);
+            }
+        }
+
+        else if (result.includes('Tied')) {
+            whichRound++;
+            round.textContent = `Current Round: ${whichRound}`;
+        }
+
     });
 });
 
@@ -59,7 +109,9 @@ function playRound (playerSelection, computerSelection) {
     }
 }
 
-function game() {
+
+
+/* function game() {
 
     let playerPoints = 0;
     let computerPoints = 0;
@@ -132,8 +184,9 @@ function game() {
             continue;
         }
     } 
-}
+} 
 
 gameStart.addEventListener('click', game);
+*/
 
 
