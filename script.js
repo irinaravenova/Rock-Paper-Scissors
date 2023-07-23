@@ -9,6 +9,7 @@ const buttons = document.querySelectorAll('.buttons');
 const roundInfo = document.querySelector('.round-info-text');
 const choices = document.querySelector('.choice-buttons');
 const announcement = document.querySelector('.announcement');
+const resetButton = document.querySelector('.reset-button');
 
 let computerSelection = getComputerChoice();
 let playerPoints = 0;
@@ -19,20 +20,12 @@ let round = document.querySelector('.round');
 let playerScore = document.querySelector('.your-score');
 let compScore = document.querySelector('.comp-score');
 
-
-function getComputerChoice() {
-    const choiceArray = ['Rock', 'Paper', 'Scissors'];
-    const randomIndex = Math.floor(Math.random() * choiceArray.length);
-    const computerChoice = choiceArray[randomIndex].toLowerCase();
-    return computerChoice;
-};
-
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
         playerSelection = button.textContent.toLowerCase();
         let computerSelection = getComputerChoice();
         let result = playRound(playerSelection, computerSelection);
-        console.log(result);
+        announcement.innerHTML = result;
 
         if (result.includes('Win')) {
             ++playerPoints;
@@ -42,13 +35,12 @@ buttons.forEach((button) => {
             round.textContent = `Current Round: ${whichRound}`;
             playerScore.textContent = `Your Score: ${playerPoints}`;
 
-            if (playerPoints > 4) {
-                choices.style.visibility = "hidden";
-            
+            if (playerPoints > 4) { 
+                disableChoices();
                 let paraWon = document.createElement('p');
                 paraWon.textContent = "You have won the game!";
                 announcement.appendChild(paraWon);
-                }
+            }
         }
 
         else if (result.includes('Lose')) {
@@ -58,8 +50,7 @@ buttons.forEach((button) => {
             compScore.textContent = `Computer Score: ${computerPoints}`;
 
             if ( computerPoints > 4) {
-                choices.style.visibility = "hidden";
-            
+                disableChoices();
                 let paraLost = document.createElement('p');
                 paraLost.textContent = "You have lost the game.";
                 announcement.appendChild(paraLost);
@@ -73,6 +64,15 @@ buttons.forEach((button) => {
 
     });
 });
+
+resetButton.addEventListener('click', resetGame);
+
+function getComputerChoice() {
+    const choiceArray = ['Rock', 'Paper', 'Scissors'];
+    const randomIndex = Math.floor(Math.random() * choiceArray.length);
+    const computerChoice = choiceArray[randomIndex].toLowerCase();
+    return computerChoice;
+};
 
 function playRound (playerSelection, computerSelection) {
 
@@ -109,7 +109,28 @@ function playRound (playerSelection, computerSelection) {
     }
 }
 
+function resetGame() {
+    enableChoices();
+    round.textContent = "Current Round: 1";
+    playerScore.textContent = "Your Score: 0";
+    compScore.textContent = "Computer Score: 0";
+    announcement.textContent = "";
+    playerPoints = 0;
+    computerPoints = 0;
+    whichRound = 1;
+};
 
+function disableChoices() {
+    buttons.forEach((button) => { 
+        button.disabled = true;
+    })
+};
+
+function enableChoices() {
+    buttons.forEach((button) => {
+        button.disabled = false;
+    })
+};
 
 /* function game() {
 
